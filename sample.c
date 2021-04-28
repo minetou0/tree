@@ -41,7 +41,7 @@ int main(void)
   printf("tree root: \"%s\"\n", (char*)tree_value(r));
 
   // tree free
-  printf("free tree\n");
+  printf("tree free\n");
   tree_free(root);
 
   return EXIT_SUCCESS;
