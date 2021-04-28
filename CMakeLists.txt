@@ -11,10 +11,10 @@ add_library(tree tree.c)
 add_executable(sample sample.c)
 target_link_libraries(sample tree)
 
-# add_executable(test_tree test_tree.c)
-# target_link_libraries(test_tree tree)
+add_executable(test_tree test_tree.c)
+target_link_libraries(test_tree tree)
 
-# add_test(test_tree_new_free ./test_tree init_free)
+add_test(test_tree_new_free ./test_tree new_free)
 # add_test(test_tree_push_head ./test_tree push_head)
 # add_test(test_tree_pop_head ./test_tree pop_head)
 # add_test(test_tree_push_tail ./test_tree push_tail)
