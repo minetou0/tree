@@ -14,5 +14,6 @@ target_link_libraries(sample tree)
 add_executable(test_tree test_tree.c)
 target_link_libraries(test_tree tree)
 
-add_test(test_new_free_1 ./test_tree "new_free_1")
-add_test(test_new_free_2 ./test_tree "new_free_2")
+add_test(test_new_free ./test_tree "new_free")
+add_test(test_left ./test_tree "left")
+add_test(test_right ./test_tree "right")

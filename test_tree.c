@@ -18,18 +18,7 @@
 
 /* *********************************************************** */
 
-tree *sample1(void) {
-  tree *o = tree_new("o");
-  tree *a = tree_new("a");
-  tree *b = tree_new("b");
-  tree_set_left(o, a);
-  tree_set_right(o, b);
-  return o;
-}
-
-/* *********************************************************** */
-
-tree *sample2(void) {
+static tree *sample(void) {
   tree *o = tree_new("o");
   tree *a = tree_new("a");
   tree *b = tree_new("b");
@@ -48,17 +37,50 @@ tree *sample2(void) {
 
 /* *********************************************************** */
 
-bool test_new_free_1(void) {
-  tree *root = sample1();
+bool test_new_free(void) {
+  tree *root = sample();
   tree_free(root);
   return true;
 }
 
 /* *********************************************************** */
 
-bool test_new_free_2(void) {
-  tree *root = sample2();
-  tree_free(root);
+bool test_left(void) {
+  tree *o = tree_new("o");
+  tree *a = tree_new("a");
+  tree *b = tree_new("b");
+  tree_set_left(o, a);
+  tree_set_right(o, b);
+  ASSERT(tree_left(o) == a);
+  tree_free(o);
+  return true;
+}
+
+/* *********************************************************** */
+
+bool test_right(void) {
+  tree *o = tree_new("o");
+  tree *a = tree_new("a");
+  tree *b = tree_new("b");
+  tree_set_left(o, a);
+  tree_set_right(o, b);
+  ASSERT(tree_right(o) == b);
+  tree_free(o);
+  return true;
+}
+
+/* *********************************************************** */
+
+bool test_parent(void) {
+  tree *o = tree_new("o");
+  tree *a = tree_new("a");
+  tree *b = tree_new("b");
+  tree_set_left(o, a);
+  tree_set_right(o, b);
+  ASSERT(tree_parent(o) == NULL);
+  ASSERT(tree_parent(a) == o);
+  ASSERT(tree_parent(b) == o);
+  tree_free(o);
   return true;
 }
 
@@ -77,10 +99,14 @@ int main(int argc, char *argv[]) {
   // start test
   fprintf(stderr, "=> Start test \"%s\"\n", argv[1]);
   bool ok = false;
-  if (strcmp("new_free_1", argv[1]) == 0)
-    ok = test_new_free_1();
-  else if (strcmp("new_free_2", argv[1]) == 0)
-    ok = test_new_free_2();
+  if (strcmp("new_free", argv[1]) == 0)
+    ok = test_new_free();
+  else if (strcmp("left", argv[1]) == 0)
+    ok = test_left();
+  else if (strcmp("right", argv[1]) == 0)
+    ok = test_right();
+  else if (strcmp("parent", argv[1]) == 0)
+    ok = test_parent();
   else {
     fprintf(stderr, "Error: test \"%s\" not found!\n", argv[1]);
     exit(EXIT_FAILURE);
