@@ -37,6 +37,9 @@ int main(void)
   printf("tree height: %d\n", tree_height(root));
   printf("tree nb nodes: %d\n", tree_nnodes(root));
 
+  tree * r = tree_root(f);
+  printf("tree root: \"%s\"\n", (char*)tree_value(r));
+
   // tree free
   printf("free tree\n");
   tree_free(root);
