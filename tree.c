@@ -146,7 +146,14 @@ void tree_print_str(tree *t) { tree_print_str_rec(t, 0); }
 
 /* *********************************************************** */
 
-tree *tree_root(tree *t) {}
+tree *tree_root(tree *t) {
+  assert(t);
+  tree *tmp = t;
+  while (tmp->parent) {
+    tmp = tmp->parent;
+  }
+  return tmp;
+}
 
 /* *********************************************************** */
 
@@ -159,6 +166,12 @@ void tree_free(tree *t) {
 
 /* *********************************************************** */
 
-void tree_free_full(tree *t, void (*destroy)(void *)) {}
+void tree_free_full(tree *t, void (*destroy)(void *)) {
+  if (t && t->left) tree_free(t->left);
+  if (t && t->right) tree_free(t->right);
+  if (t && t->parent) t->parent = NULL;
+  destroy(t->data);
+  free(t);
+}
 
 /* *********************************************************** */
