@@ -7,7 +7,7 @@ enable_testing()
 
 set(CMAKE_C_FLAGS "-std=c99 -Wall --coverage")
 
-add_library(tree tree.c)
+add_library(tree tree.c tree_aux.c)
 add_executable(sample sample.c)
 target_link_libraries(sample tree)
 
@@ -22,6 +22,7 @@ add_test(test_value ./test_tree "value")
 add_test(test_is_leaf ./test_tree "is_leaf")
 add_test(test_is_root ./test_tree "is_root")
 add_test(test_height ./test_tree "height")
+add_test(test_nnodes ./test_tree "nnodes")
 add_test(test_root ./test_tree "root")
 add_test(test_unlink ./test_tree "unlink")
 add_test(test_free_full ./test_tree "free_full")

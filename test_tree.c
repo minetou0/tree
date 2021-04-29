@@ -4,45 +4,12 @@
 #include <string.h>
 
 #include "tree.h"
-
-/* *********************************************************** */
-
-/*
-        o
-       / \
-      a   b
-     / \   \
-    c   d   e
-           /
-          f
-*/
-
-struct sample {
-  tree *o, *a, *b, *c, *d, *e, *f;
-};
-
-struct sample make_sample(void) {
-  struct sample s;
-  s.o = tree_new("o");
-  s.a = tree_new("a");
-  s.b = tree_new("b");
-  s.c = tree_new("c");
-  s.d = tree_new("d");
-  s.e = tree_new("e");
-  s.f = tree_new("f");
-  tree_set_left(s.o, s.a);
-  tree_set_right(s.o, s.b);
-  tree_set_left(s.a, s.c);
-  tree_set_right(s.a, s.d);
-  tree_set_right(s.b, s.e);
-  tree_set_left(s.e, s.f);
-  return s;
-}
+#include "tree_aux.h"
 
 /* *********************************************************** */
 
 bool test_new_free(void) {
-  struct sample s = make_sample();
+  struct sample s = tree_sample();
   tree_free(s.o);
   return true;
 }
@@ -50,7 +17,7 @@ bool test_new_free(void) {
 /* *********************************************************** */
 
 bool test_left(void) {
-  struct sample s = make_sample();
+  struct sample s = tree_sample();
   if (tree_left(s.o) != s.a) return false;
   if (tree_left(s.a) != s.c) return false;
   if (tree_left(s.b) != NULL) return false;
@@ -65,7 +32,7 @@ bool test_left(void) {
 /* *********************************************************** */
 
 bool test_right(void) {
-  struct sample s = make_sample();
+  struct sample s = tree_sample();
   if (tree_right(s.o) != s.b) return false;
   if (tree_right(s.a) != s.d) return false;
   if (tree_right(s.b) != s.e) return false;
@@ -80,7 +47,7 @@ bool test_right(void) {
 /* *********************************************************** */
 
 bool test_parent(void) {
-  struct sample s = make_sample();
+  struct sample s = tree_sample();
   if (tree_parent(s.o) != NULL) return false;
   if (tree_parent(s.a) != s.o) return false;
   if (tree_parent(s.b) != s.o) return false;
@@ -92,7 +59,7 @@ bool test_parent(void) {
 /* *********************************************************** */
 
 bool test_value(void) {
-  struct sample s = make_sample();
+  struct sample s = tree_sample();
   if (strcmp(tree_value(s.o), "o") != 0) return false;
   if (strcmp(tree_value(s.a), "a") != 0) return false;
   if (strcmp(tree_value(s.b), "b") != 0) return false;
@@ -103,7 +70,7 @@ bool test_value(void) {
 /* *********************************************************** */
 
 bool test_is_leaf(void) {
-  struct sample s = make_sample();
+  struct sample s = tree_sample();
   if (tree_is_leaf(s.o) != false) return false;
   if (tree_is_leaf(s.a) != false) return false;
   if (tree_is_leaf(s.b) != false) return false;
@@ -118,7 +85,7 @@ bool test_is_leaf(void) {
 /* *********************************************************** */
 
 bool test_is_root(void) {
-  struct sample s = make_sample();
+  struct sample s = tree_sample();
   if (tree_is_root(s.o) != true) return false;
   if (tree_is_root(s.a) != false) return false;
   if (tree_is_root(s.b) != false) return false;
@@ -133,7 +100,7 @@ bool test_is_root(void) {
 /* *********************************************************** */
 
 bool test_height(void) {
-  struct sample s = make_sample();
+  struct sample s = tree_sample();
   if (tree_height(s.o) != 3) return false;
   if (tree_height(s.a) != 1) return false;
   if (tree_height(s.b) != 2) return false;
@@ -148,7 +115,7 @@ bool test_height(void) {
 /* *********************************************************** */
 
 bool test_nnodes(void) {
-  struct sample s = make_sample();
+  struct sample s = tree_sample();
   if (tree_nnodes(s.o) != 7) return false;
   if (tree_nnodes(s.a) != 3) return false;
   if (tree_nnodes(s.b) != 3) return false;
@@ -163,7 +130,7 @@ bool test_nnodes(void) {
 /* *********************************************************** */
 
 bool test_root(void) {
-  struct sample s = make_sample();
+  struct sample s = tree_sample();
   if (tree_root(s.o) != s.o) return false;
   if (tree_root(s.a) != s.o) return false;
   if (tree_root(s.b) != s.o) return false;
@@ -178,7 +145,7 @@ bool test_root(void) {
 /* *********************************************************** */
 
 bool test_unlink(void) {
-  struct sample s = make_sample();
+  struct sample s = tree_sample();
   tree_unlink(s.e);
   /* s.e becomes root of a new tree */
   if (tree_is_root(s.e) != true) return false;

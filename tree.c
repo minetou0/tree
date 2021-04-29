@@ -5,6 +5,8 @@
 
 #include "tree.h"
 
+/* *********************************************************** */
+
 #define MAX(x, y) (((x) <= (y)) ? (y) : (x))
 
 /* *********************************************************** */
@@ -15,8 +17,6 @@ struct tree_s {
   struct tree_s *right;
   struct tree_s *parent;
 };
-
-/* *********************************************************** */
 
 typedef struct tree_s tree;
 
@@ -136,22 +136,7 @@ void tree_unlink(tree *t) {
 
 /* *********************************************************** */
 
-static void tree_print_str_rec(tree *t, int depth) {
-  char *str = "(null)";
-  if (t) str = t->data;
-  for (int k = 1; k < depth; k++) printf("  ");
-  char *head = "└──";
-  if (depth == 0) head = "";
-  printf("%s%s\n", head, str);
-  if (t == NULL) return;
-  if (t && tree_is_leaf(t)) return;
-  tree_print_str_rec(t->left, depth + 1);
-  tree_print_str_rec(t->right, depth + 1);
-}
 
-/* *********************************************************** */
-
-void tree_print_str(tree *t) { tree_print_str_rec(t, 0); }
 
 /* *********************************************************** */
 

@@ -1,5 +1,4 @@
 /**
- * @author aurelien.esnard@u-bordeaux.fr
  * @brief Lightweight implementation of binary tree data structure.
  **/
 
@@ -7,8 +6,6 @@
 #define TREE_H
 
 #include <stdbool.h>
-
-//@{
 
 typedef struct tree_s tree;
 
@@ -33,12 +30,9 @@ int tree_height(const tree *t);
 int tree_nnodes(const tree *t);
 tree *tree_root(tree *t);
 void tree_unlink(tree *t);
-void tree_print_str(tree *t);
 
 /* destructor */
 void tree_free(tree *t);
 void tree_free_full(tree *t, void (*destroy)(void *));
-
-//@}
 
 #endif
