@@ -1,7 +1,6 @@
 /**
  * @author aurelien.esnard@u-bordeaux.fr
- * @brief Lightweight implementation of binary tree data structure following
- * GLib interface.
+ * @brief Lightweight implementation of binary tree data structure.
  **/
 
 #ifndef TREE_H
