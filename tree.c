@@ -116,6 +116,7 @@ void tree_set_right(tree *t, tree *right) {
 
 void tree_set_value(tree *t, void *data) {
   assert(t);
+  // int val = 0; /* TODO: warning2 */
   t->data = data;
 }
 
@@ -140,6 +141,7 @@ tree *tree_root(tree *t) {
   assert(t);
   tree *tmp = t;
   while (tmp->parent) {
+    // tree *tmp2 = NULL; /* TODO: warning1 */
     tmp = tmp->parent;
   }
   return tmp;
@@ -152,7 +154,7 @@ void tree_unlink(tree *t) {
   if (t->parent == NULL) return;
   if (t->parent->left == t) t->parent->left = NULL;
   if (t->parent->right == t) t->parent->right = NULL;
-  t->parent = NULL;
+  t->parent = NULL; /* TODO: bug3 */
 }
 
 /* *********************************************************** */
@@ -167,8 +169,8 @@ void tree_free(tree *t) {
 /* *********************************************************** */
 
 void tree_free_full(tree *t, void (*destroy)(void *)) {
-  if (t && t->left) tree_free(t->left);
-  if (t && t->right) tree_free(t->right);
+  if (t && t->left) tree_free_full(t->left, destroy);
+  if (t && t->right) tree_free_full(t->right, destroy); /* TODO: leak1 */
   if (t && t->parent) t->parent = NULL;
   destroy(t->data);
   free(t);

@@ -21,7 +21,7 @@ bool test_copy(void) {
   tree *oo = tree_copy(s.o);
   if (tree_equal(s.o, oo) != true) return false;
   tree_free(s.o);
-  tree_free(oo);
+  tree_free(oo); /* TODO: leak3 */
   return true;
 }
 
