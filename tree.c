@@ -129,11 +129,8 @@ tree *tree_root(tree *t) {
 void tree_unlink(tree *t) {
   assert(t);
   if (t->parent == NULL) return;
-
   if (t->parent->left == t) t->parent->left = NULL;
-
   if (t->parent->right == t) t->parent->right = NULL;
-
   t->parent = NULL;
 }
 

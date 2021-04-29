@@ -162,6 +162,38 @@ bool test_nnodes(void) {
 
 /* *********************************************************** */
 
+bool test_root(void) {
+  struct sample s = make_sample();
+  if (tree_root(s.o) != s.o) return false;
+  if (tree_root(s.a) != s.o) return false;
+  if (tree_root(s.b) != s.o) return false;
+  if (tree_root(s.c) != s.o) return false;
+  if (tree_root(s.d) != s.o) return false;
+  if (tree_root(s.e) != s.o) return false;
+  if (tree_root(s.f) != s.o) return false;
+  tree_free(s.o);
+  return true;
+}
+
+/* *********************************************************** */
+
+bool test_unlink(void) {
+  struct sample s = make_sample();
+  tree_unlink(s.e);
+  /* s.e becomes root of a new tree */
+  if (tree_is_root(s.e) != true) return false;
+  if (tree_is_leaf(s.b) != true) return false;
+  if (tree_root(s.f) != s.e) return false;
+  if (tree_root(s.b) != s.o) return false;
+  if (tree_nnodes(s.o) != 5) return false;
+  if (tree_nnodes(s.e) != 2) return false;
+  tree_free(s.o);
+  tree_free(s.e);
+  return true;
+}
+
+/* *********************************************************** */
+
 void usage(int argc, char *argv[]) {
   fprintf(stderr, "Usage: %s <testname> [<...>]\n", argv[0]);
   exit(EXIT_FAILURE);
@@ -193,6 +225,10 @@ int main(int argc, char *argv[]) {
     ok = test_height();
   else if (strcmp("nnodes", argv[1]) == 0)
     ok = test_nnodes();
+  else if (strcmp("root", argv[1]) == 0)
+    ok = test_root();
+  else if (strcmp("unlink", argv[1]) == 0)
+    ok = test_unlink();
   else {
     fprintf(stderr, "Error: test \"%s\" not found!\n", argv[1]);
     exit(EXIT_FAILURE);
