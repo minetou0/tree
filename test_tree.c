@@ -194,6 +194,27 @@ bool test_unlink(void) {
 
 /* *********************************************************** */
 
+bool test_free_full(void) {
+  char *so = calloc(2, sizeof(char));
+  char *sa = calloc(2, sizeof(char));
+  char *sb = calloc(2, sizeof(char));
+  *so = 'o';
+  *sa = 'a';
+  *sb = 'b';
+  tree *o = tree_new(so);
+  tree *a = tree_new(sa);
+  tree *b = tree_new(sb);
+  tree_set_left(o, a);
+  tree_set_right(o, b);
+  if (strcmp(tree_value(o), "o") != 0) return false;
+  if (strcmp(tree_value(a), "a") != 0) return false;
+  if (strcmp(tree_value(b), "b") != 0) return false;
+  tree_free_full(o, free);
+  return true;
+}
+
+/* *********************************************************** */
+
 void usage(int argc, char *argv[]) {
   fprintf(stderr, "Usage: %s <testname> [<...>]\n", argv[0]);
   exit(EXIT_FAILURE);
@@ -229,6 +250,8 @@ int main(int argc, char *argv[]) {
     ok = test_root();
   else if (strcmp("unlink", argv[1]) == 0)
     ok = test_unlink();
+  else if (strcmp("free_full", argv[1]) == 0)
+    ok = test_free_full();
   else {
     fprintf(stderr, "Error: test \"%s\" not found!\n", argv[1]);
     exit(EXIT_FAILURE);

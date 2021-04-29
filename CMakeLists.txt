@@ -5,7 +5,7 @@ project("tree" C)
 include(CTest)
 enable_testing()
 
-set(CMAKE_C_FLAGS "-std=c99 -Wall")
+set(CMAKE_C_FLAGS "-std=c99 -Wall --coverage")
 
 add_library(tree tree.c)
 add_executable(sample sample.c)
@@ -24,3 +24,4 @@ add_test(test_is_root ./test_tree "is_root")
 add_test(test_height ./test_tree "height")
 add_test(test_root ./test_tree "root")
 add_test(test_unlink ./test_tree "unlink")
+add_test(test_free_full ./test_tree "free_full")
