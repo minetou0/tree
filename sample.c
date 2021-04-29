@@ -4,14 +4,15 @@
 #include "tree.h"
 
 /*
-       root
-       /  \
-       a  b
-      /\   \
-     c  d   e
+        o
+       / \
+      a   b
+     / \   \
+    c   d   e
            /
           f
 */
+
 
 int main(void)
 {

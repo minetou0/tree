@@ -110,7 +110,7 @@ int tree_height(const tree *t) {
 
 int tree_nnodes(const tree *t) {
   if (t == NULL) return 0;
-  return tree_height(t->left) + tree_height(t->right) + 1;
+  return tree_nnodes(t->left) + tree_nnodes(t->right) + 1;
 }
 
 /* *********************************************************** */

@@ -7,133 +7,158 @@
 
 /* *********************************************************** */
 
+/*
+        o
+       / \
+      a   b
+     / \   \
+    c   d   e
+           /
+          f
+*/
+
+struct sample {
+  tree *o, *a, *b, *c, *d, *e, *f;
+};
+
+struct sample make_sample(void) {
+  struct sample s;
+  s.o = tree_new("o");
+  s.a = tree_new("a");
+  s.b = tree_new("b");
+  s.c = tree_new("c");
+  s.d = tree_new("d");
+  s.e = tree_new("e");
+  s.f = tree_new("f");
+  tree_set_left(s.o, s.a);
+  tree_set_right(s.o, s.b);
+  tree_set_left(s.a, s.c);
+  tree_set_right(s.a, s.d);
+  tree_set_right(s.b, s.e);
+  tree_set_left(s.e, s.f);
+  return s;
+}
+
+/* *********************************************************** */
+
 bool test_new_free(void) {
-  tree *o = tree_new("o");
-  tree *a = tree_new("a");
-  tree *b = tree_new("b");
-  tree *c = tree_new("c");
-  tree *d = tree_new("d");
-  tree *e = tree_new("e");
-  tree *f = tree_new("f");
-  tree_set_left(o, a);
-  tree_set_right(o, b);
-  tree_set_left(a, c);
-  tree_set_right(a, d);
-  tree_set_right(b, e);
-  tree_set_left(e, f);
-  tree_free(o);
+  struct sample s = make_sample();
+  tree_free(s.o);
   return true;
 }
 
 /* *********************************************************** */
 
 bool test_left(void) {
-  tree *o = tree_new("o");
-  tree *a = tree_new("a");
-  tree *b = tree_new("b");
-  tree_set_left(o, a);
-  tree_set_right(o, b);
-  if (tree_left(o) != a) return false;
-  tree_free(o);
+  struct sample s = make_sample();
+  if (tree_left(s.o) != s.a) return false;
+  if (tree_left(s.a) != s.c) return false;
+  if (tree_left(s.b) != NULL) return false;
+  if (tree_left(s.c) != NULL) return false;
+  if (tree_left(s.d) != NULL) return false;
+  if (tree_left(s.e) != s.f) return false;
+  if (tree_left(s.f) != NULL) return false;
+  tree_free(s.o);
   return true;
 }
 
 /* *********************************************************** */
 
 bool test_right(void) {
-  tree *o = tree_new("o");
-  tree *a = tree_new("a");
-  tree *b = tree_new("b");
-  tree_set_left(o, a);
-  tree_set_right(o, b);
-  if (tree_right(o) != b) return false;
-  tree_free(o);
+  struct sample s = make_sample();
+  if (tree_right(s.o) != s.b) return false;
+  if (tree_right(s.a) != s.d) return false;
+  if (tree_right(s.b) != s.e) return false;
+  if (tree_right(s.c) != NULL) return false;
+  if (tree_right(s.d) != NULL) return false;
+  if (tree_right(s.e) != NULL) return false;
+  if (tree_right(s.f) != NULL) return false;
+  tree_free(s.o);
   return true;
 }
 
 /* *********************************************************** */
 
 bool test_parent(void) {
-  tree *o = tree_new("o");
-  tree *a = tree_new("a");
-  tree *b = tree_new("b");
-  tree_set_left(o, a);
-  tree_set_right(o, b);
-  if (tree_parent(o) != NULL) return false;
-  if (tree_parent(a) != o) return false;
-  if (tree_parent(b) != o) return false;
-  tree_free(o);
+  struct sample s = make_sample();
+  if (tree_parent(s.o) != NULL) return false;
+  if (tree_parent(s.a) != s.o) return false;
+  if (tree_parent(s.b) != s.o) return false;
+  // ...
+  tree_free(s.o);
   return true;
 }
 
 /* *********************************************************** */
 
 bool test_value(void) {
-  tree *o = tree_new("o");
-  tree *a = tree_new("a");
-  tree *b = tree_new("b");
-  tree_set_left(o, a);
-  tree_set_right(o, b);
-  if (strcmp(tree_value(o), "o") != 0) return false;
-  if (strcmp(tree_value(a), "a") != 0) return false;
-  if (strcmp(tree_value(b), "b") != 0) return false;
-  tree_free(o);
+  struct sample s = make_sample();
+  if (strcmp(tree_value(s.o), "o") != 0) return false;
+  if (strcmp(tree_value(s.a), "a") != 0) return false;
+  if (strcmp(tree_value(s.b), "b") != 0) return false;
+  // ...
+  tree_free(s.o);
   return true;
 }
 /* *********************************************************** */
 
 bool test_is_leaf(void) {
-  tree *o = tree_new("o");
-  tree *a = tree_new("a");
-  tree *b = tree_new("b");
-  tree_set_left(o, a);
-  tree_set_right(a, b);
-  if (tree_is_leaf(o) != false) return false;
-  if (tree_is_leaf(a) != false) return false;
-  if (tree_is_leaf(b) != true) return false;
-  tree_free(o);
+  struct sample s = make_sample();
+  if (tree_is_leaf(s.o) != false) return false;
+  if (tree_is_leaf(s.a) != false) return false;
+  if (tree_is_leaf(s.b) != false) return false;
+  if (tree_is_leaf(s.c) != true) return false;
+  if (tree_is_leaf(s.d) != true) return false;
+  if (tree_is_leaf(s.e) != false) return false;
+  if (tree_is_leaf(s.f) != true) return false;
+  tree_free(s.o);
   return true;
 }
 
 /* *********************************************************** */
 
 bool test_is_root(void) {
-  tree *o = tree_new("o");
-  tree *a = tree_new("a");
-  tree *b = tree_new("b");
-  tree_set_left(o, a);
-  tree_set_right(a, b);
-  if (tree_is_root(o) != true) return false;
-  if (tree_is_root(a) != false) return false;
-  if (tree_is_root(b) != false) return false;
-  tree_free(o);
+  struct sample s = make_sample();
+  if (tree_is_root(s.o) != true) return false;
+  if (tree_is_root(s.a) != false) return false;
+  if (tree_is_root(s.b) != false) return false;
+  if (tree_is_root(s.c) != false) return false;
+  if (tree_is_root(s.d) != false) return false;
+  if (tree_is_root(s.e) != false) return false;
+  if (tree_is_root(s.f) != false) return false;
+  tree_free(s.o);
   return true;
 }
 
 /* *********************************************************** */
 
 bool test_height(void) {
-  tree *o = tree_new("o");
-  tree *a = tree_new("a");
-  tree *b = tree_new("b");
-  tree *c = tree_new("c");
-  tree *d = tree_new("d");
-  tree *e = tree_new("e");
-  tree *f = tree_new("f");
-  tree_set_left(o, a);
-  tree_set_right(a, b);
-  tree_set_left(b, c);
-  tree_set_right(c, d);
-  tree_set_right(d, e);
-  tree_set_left(e, f);
-  if (tree_height(o) != 6) return false;
-  tree_free(o);
+  struct sample s = make_sample();
+  if (tree_height(s.o) != 3) return false;
+  if (tree_height(s.a) != 1) return false;
+  if (tree_height(s.b) != 2) return false;
+  if (tree_height(s.c) != 0) return false;
+  if (tree_height(s.d) != 0) return false;
+  if (tree_height(s.e) != 1) return false;
+  if (tree_height(s.f) != 0) return false;
+  tree_free(s.o);
   return true;
 }
 
 /* *********************************************************** */
 
-bool test_nnodes(void) { return true; }
+bool test_nnodes(void) {
+  struct sample s = make_sample();
+  if (tree_nnodes(s.o) != 7) return false;
+  if (tree_nnodes(s.a) != 3) return false;
+  if (tree_nnodes(s.b) != 3) return false;
+  if (tree_nnodes(s.c) != 1) return false;
+  if (tree_nnodes(s.d) != 1) return false;
+  if (tree_nnodes(s.e) != 2) return false;
+  if (tree_nnodes(s.f) != 1) return false;
+  tree_free(s.o);
+  return true;
+}
 
 /* *********************************************************** */
 
