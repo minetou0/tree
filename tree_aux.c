@@ -25,16 +25,6 @@ void tree_print_str(tree *t) { tree_print_str_rec(t, 0); }
 
 /* *********************************************************** */
 
-/*
-        o
-       / \
-      a   b
-     / \   \
-    c   d   e
-           /
-          f
-*/
-
 struct sample tree_sample(void) {
   struct sample s;
   s.o = tree_new("o");

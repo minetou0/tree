@@ -34,6 +34,27 @@ tree *tree_new(void *data) {
 
 /* *********************************************************** */
 
+tree *tree_copy(tree *t) {
+  if (t == NULL) return NULL;
+  tree *tt = tree_new(t->data);
+  tt->left = tree_copy(t->left);
+  if (tt->left) tt->left->parent = tt;
+  tt->right = tree_copy(t->right);
+  if (tt->right) tt->right->parent = tt;
+  return tt;
+}
+
+/* *********************************************************** */
+
+bool tree_equal(tree *t1, tree *t2) {
+  if ((t1 == NULL) && (t2 == NULL)) return true;
+  if ((t1 == NULL) || (t2 == NULL)) return false;
+  if (t1->data != t2->data) return false;
+  return (tree_equal(t1->left, t2->left) && tree_equal(t1->right, t2->right));
+}
+
+/* *********************************************************** */
+
 tree *tree_left(tree *t) {
   assert(t);
   return t->left;
@@ -102,14 +123,14 @@ void tree_set_value(tree *t, void *data) {
 
 int tree_height(const tree *t) {
   /* Conventionally, an empty tree has height −1. */
-  if (t == NULL) return -1;
+  if (t == NULL) return -1; /* TODO: bug1 */
   return MAX(tree_height(t->left) + 1, tree_height(t->right) + 1);
 }
 
 /* *********************************************************** */
 
 int tree_nnodes(const tree *t) {
-  if (t == NULL) return 0;
+  if (t == NULL) return 0; /* TODO: bug2 */
   return tree_nnodes(t->left) + tree_nnodes(t->right) + 1;
 }
 
@@ -133,7 +154,6 @@ void tree_unlink(tree *t) {
   if (t->parent->right == t) t->parent->right = NULL;
   t->parent = NULL;
 }
-
 
 /* *********************************************************** */
 

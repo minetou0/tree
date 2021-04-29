@@ -15,6 +15,8 @@ add_executable(tree_test tree_test.c)
 target_link_libraries(tree_test tree)
 
 add_test(test_new_free ./tree_test "new_free")
+add_test(test_copy ./tree_test "copy")
+add_test(test_equal ./tree_test "equal")
 add_test(test_left ./tree_test "left")
 add_test(test_right ./tree_test "right")
 add_test(test_parent ./tree_test "parent")

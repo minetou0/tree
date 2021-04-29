@@ -16,6 +16,26 @@ bool test_new_free(void) {
 
 /* *********************************************************** */
 
+bool test_copy(void) {
+  struct sample s = tree_sample();
+  tree *oo = tree_copy(s.o);
+  if (tree_equal(s.o, oo) != true) return false;
+  tree_free(s.o);
+  tree_free(oo);
+  return true;
+}
+
+/* *********************************************************** */
+
+bool test_equal(void) {
+  struct sample s = tree_sample();
+  if (tree_equal(s.o, s.o) != true) return false;
+  tree_free(s.o);
+  return true;
+}
+
+/* *********************************************************** */
+
 bool test_left(void) {
   struct sample s = tree_sample();
   if (tree_left(s.o) != s.a) return false;
@@ -152,10 +172,8 @@ bool test_unlink(void) {
   if (tree_is_leaf(s.b) != true) return false;
   if (tree_root(s.f) != s.e) return false;
   if (tree_root(s.b) != s.o) return false;
-  if (tree_nnodes(s.o) != 5) return false;
-  if (tree_nnodes(s.e) != 2) return false;
   tree_free(s.o);
-  tree_free(s.e);
+  tree_free(s.e); /* TODO: leak1 */
   return true;
 }
 
@@ -197,6 +215,10 @@ int main(int argc, char *argv[]) {
   bool ok = false;
   if (strcmp("new_free", argv[1]) == 0)
     ok = test_new_free();
+  else if (strcmp("copy", argv[1]) == 0)
+    ok = test_copy();
+  else if (strcmp("equal", argv[1]) == 0)
+    ok = test_equal();
   else if (strcmp("left", argv[1]) == 0)
     ok = test_left();
   else if (strcmp("right", argv[1]) == 0)

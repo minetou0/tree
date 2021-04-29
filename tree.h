@@ -10,7 +10,9 @@
 typedef struct tree_s tree;
 
 /* constructor */
-tree *tree_new(void * data);
+tree *tree_new(void *data);
+tree *tree_copy(tree *t);
+bool tree_equal(tree *t1, tree *t2);
 
 /* accessor */
 tree *tree_left(tree *t);
