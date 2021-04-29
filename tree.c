@@ -93,6 +93,39 @@ void tree_set_right(tree *t, tree *right) {
 
 /* *********************************************************** */
 
+void tree_set_value(tree *t, void *data) {
+  assert(t);
+  t->data = data;
+}
+
+/* *********************************************************** */
+
+int tree_height(const tree *t) {
+  /* Conventionally, an empty tree has height −1. */
+  if (t == NULL) return -1;
+  return MAX(tree_height(t->left) + 1, tree_height(t->right) + 1);
+}
+
+/* *********************************************************** */
+
+int tree_nnodes(const tree *t) {
+  if (t == NULL) return 0;
+  return tree_height(t->left) + tree_height(t->right) + 1;
+}
+
+/* *********************************************************** */
+
+tree *tree_root(tree *t) {
+  assert(t);
+  tree *tmp = t;
+  while (tmp->parent) {
+    tmp = tmp->parent;
+  }
+  return tmp;
+}
+
+/* *********************************************************** */
+
 void tree_unlink(tree *t) {
   assert(t);
   if (t->parent == NULL) return;
@@ -102,27 +135,6 @@ void tree_unlink(tree *t) {
   if (t->parent->right == t) t->parent->right = NULL;
 
   t->parent = NULL;
-}
-
-/* *********************************************************** */
-
-void tree_set_value(tree *t, void *data) {
-  assert(t);
-  t->data = data;
-}
-
-/* *********************************************************** */
-
-int tree_height(const tree *t) {
-  if (t == NULL) return 0;
-  return MAX(tree_height(t->left) + 1, tree_height(t->right) + 1);
-}
-
-/* *********************************************************** */
-
-int tree_nnodes(const tree *t) {
-  if (t == NULL) return 0;
-  return tree_height(t->left) + tree_height(t->right) + 1;
 }
 
 /* *********************************************************** */
@@ -143,17 +155,6 @@ static void tree_print_str_rec(tree *t, int depth) {
 /* *********************************************************** */
 
 void tree_print_str(tree *t) { tree_print_str_rec(t, 0); }
-
-/* *********************************************************** */
-
-tree *tree_root(tree *t) {
-  assert(t);
-  tree *tmp = t;
-  while (tmp->parent) {
-    tmp = tmp->parent;
-  }
-  return tmp;
-}
 
 /* *********************************************************** */
 
