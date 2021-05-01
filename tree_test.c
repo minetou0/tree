@@ -21,7 +21,7 @@ bool test_copy(void) {
   tree *oo = tree_copy(s.o);
   if (tree_equal(s.o, oo) != true) return false;
   tree_free(s.o);
-  tree_free(oo); /* TODO: leak3 */
+  tree_free(oo); /* TODO: leak (version2) */
   return true;
 }
 
@@ -173,7 +173,7 @@ bool test_unlink(void) {
   if (tree_root(s.f) != s.e) return false;
   if (tree_root(s.b) != s.o) return false;
   tree_free(s.o);
-  tree_free(s.e); /* TODO: leak1 */
+  // tree_free(s.e); /* TODO: leak (version1) */
   return true;
 }
 
