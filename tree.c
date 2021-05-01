@@ -116,7 +116,6 @@ void tree_set_right(tree *t, tree *right) {
 
 void tree_set_value(tree *t, void *data) {
   assert(t);
-  // int val = 0; /* TODO: warning (version2) */
   t->data = data;
 }
 
@@ -124,14 +123,14 @@ void tree_set_value(tree *t, void *data) {
 
 int tree_height(const tree *t) {
   /* Conventionally, an empty tree has height −1. */
-  // if (t == NULL) return -1; /* TODO: bug (version1) */
+  if (t == NULL) return -1;
   return MAX(tree_height(t->left) + 1, tree_height(t->right) + 1);
 }
 
 /* *********************************************************** */
 
 int tree_nnodes(const tree *t) {
-  if (t == NULL) return 0; /* TODO: bug (version2) */
+  if (t == NULL) return 0;
   return tree_nnodes(t->left) + tree_nnodes(t->right) + 1;
 }
 
@@ -141,7 +140,6 @@ tree *tree_root(tree *t) {
   assert(t);
   tree *tmp = t;
   while (tmp->parent) {
-    tree *tmp2 = NULL; /* TODO: warning (version1) */
     tmp = tmp->parent;
   }
   return tmp;
