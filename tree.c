@@ -96,20 +96,20 @@ bool tree_is_root(const tree *t) {
 
 void tree_set_left(tree *t, tree *left) {
   assert(t);
-  assert(t->left == NULL);
-  assert(left->parent == NULL);
+  // assert(t->left == NULL);
+  // assert(left->parent == NULL);  // FIXME: left could be NULL?
   t->left = left;
-  left->parent = t;
+  if (left) left->parent = t;
 }
 
 /* *********************************************************** */
 
 void tree_set_right(tree *t, tree *right) {
   assert(t);
-  assert(t->right == NULL);
-  assert(right->parent == NULL);
+  // assert(t->right == NULL);
+  // assert(right->parent == NULL);
   t->right = right;
-  right->parent = t;
+  if (right) right->parent = t;
 }
 
 /* *********************************************************** */

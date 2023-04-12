@@ -44,3 +44,19 @@ struct sample tree_sample(void) {
 }
 
 /* *********************************************************** */
+
+static tree *tree_random_rec(int n) {
+  if (n == 0) return NULL;
+  tree *t = tree_new("x");
+  bool left = (rand() % 2 == 0);
+  bool right = (rand() % 2 == 0);
+  if (left) tree_set_left(t, tree_random_rec(n - 1));
+  if (right) tree_set_right(t, tree_random_rec(n - 1));
+  return t;
+}
+
+/* *********************************************************** */
+
+tree *tree_random(int n) { return tree_random_rec(n); }
+
+/* *********************************************************** */

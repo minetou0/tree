@@ -11,6 +11,9 @@ add_library(tree tree.c tree_aux.c)
 add_executable(sample sample.c)
 target_link_libraries(sample tree)
 
+add_executable(random random.c)
+target_link_libraries(random tree)
+
 add_executable(tree_test tree_test.c)
 target_link_libraries(tree_test tree)
 

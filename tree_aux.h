@@ -19,6 +19,8 @@ struct sample {
 
 struct sample tree_sample();
 
+tree *tree_random(int n);
+
 void tree_print_str(tree *t);
 
 #endif
