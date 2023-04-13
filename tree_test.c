@@ -8,6 +8,42 @@
 
 /* *********************************************************** */
 
+struct sample {
+  tree *o, *a, *b, *c, *d, *e, *f;
+};
+
+/*
+        o
+       / \
+      a   b
+     / \   \
+    c   d   e
+           /
+          f
+*/
+
+/* *********************************************************** */
+
+struct sample tree_sample(void) {
+  struct sample s;
+  s.o = tree_new("o");
+  s.a = tree_new("a");
+  s.b = tree_new("b");
+  s.c = tree_new("c");
+  s.d = tree_new("d");
+  s.e = tree_new("e");
+  s.f = tree_new("f");
+  tree_set_left(s.o, s.a);
+  tree_set_right(s.o, s.b);
+  tree_set_left(s.a, s.c);
+  tree_set_right(s.a, s.d);
+  tree_set_right(s.b, s.e);
+  tree_set_left(s.e, s.f);
+  return s;
+}
+
+/* *********************************************************** */
+
 bool test_new_free(void) {
   struct sample s = tree_sample();
   tree_free(s.o);

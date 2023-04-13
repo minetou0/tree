@@ -1,26 +1,31 @@
-#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
+
 #include "tree.h"
 #include "tree_aux.h"
 
 int main(void) {
+  srand(time(NULL));
+
   // make tree
-  printf("make tree\n");
-  struct sample s = tree_sample();
+  printf("make random tree\n");
+  tree *t = tree_random_int(4, 100);
 
   // print tree
-  tree_print_str(s.o);
+  printf("print tree\n");
+  tree_print_int(t);
+  printf("tree height: %d\n", tree_height(t));
+  printf("tree nb nodes: %d\n", tree_nnodes(t));
 
-  printf("tree height: %d\n", tree_height(s.o));
-  printf("tree nb nodes: %d\n", tree_nnodes(s.o));
+  // save tree
+  const char *filename = "random.tree";
+  printf("save tree: %s\n", filename);
+  tree_save_int(t, filename);
 
-  tree *r = tree_root(s.f);
-  printf("tree root: \"%s\"\n", (char *)tree_value(r));
-
-  // tree free
-  printf("tree free\n");
-  tree_free(s.o);
+  // free it
+  printf("free\n");
+  tree_free_full(t, free);
 
   return EXIT_SUCCESS;
 }
