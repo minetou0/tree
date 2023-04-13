@@ -48,6 +48,7 @@ static tree *tree_random_rec(int n, int maxvalue) {
   tree *t = tree_new(val);
   bool left = (rand() % 2 == 0);
   bool right = (rand() % 2 == 0);
+  if(!left) right = true; // enforce at least one child
   if (left) tree_set_left(t, tree_random_rec(n - 1, maxvalue));
   if (right) tree_set_right(t, tree_random_rec(n - 1, maxvalue));
   return t;
@@ -55,7 +56,7 @@ static tree *tree_random_rec(int n, int maxvalue) {
 
 /* *********************************************************** */
 
-tree *tree_random_int(int maxheight, int maxvalue) { return tree_random_rec(maxheight + 1, maxvalue); }
+tree *tree_random_int(int height, int maxvalue) { return tree_random_rec(height + 1, maxvalue); }
 
 /* *********************************************************** */
 

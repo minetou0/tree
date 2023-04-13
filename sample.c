@@ -8,9 +8,11 @@
 int main(void) {
   srand(time(NULL));
 
-  // make tree
-  printf("make random tree\n");
-  tree *t = tree_random_int(4, 100);
+  // make random tree
+  const int height = 4;
+  const int maxvalue = 10;
+  printf("make random tree (height=%d)\n", height);
+  tree *t = tree_random_int(height, maxvalue);
 
   // print tree
   printf("print tree\n");
@@ -24,7 +26,6 @@ int main(void) {
   tree_save_int(t, filename);
 
   // free it
-  printf("free\n");
   tree_free_full(t, free);
 
   return EXIT_SUCCESS;
